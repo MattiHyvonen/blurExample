@@ -1,0 +1,36 @@
+#version 150
+
+//built-in in&out variables:
+in vec2 texCoordVarying;
+out vec4 outputColor;
+
+//user-defined
+uniform sampler2DRect tex0;
+uniform float blurAmount;
+
+
+vec4 blurIteration(vec4 color) {
+    color += 1.0 * texture(tex0, texCoordVarying + vec2(blurAmount * -4.0, 0.0));
+    color += 2.0 * texture(tex0, texCoordVarying + vec2(blurAmount * -3.0, 0.0));
+    color += 3.0 * texture(tex0, texCoordVarying + vec2(blurAmount * -2.0, 0.0));
+    color += 4.0 * texture(tex0, texCoordVarying + vec2(blurAmount * -1.0, 0.0));
+
+    color += 5.0 * texture(tex0, texCoordVarying + vec2(blurAmount, 0));
+
+    color += 4.0 * texture(tex0, texCoordVarying + vec2(blurAmount * 1.0, 0.0));
+    color += 3.0 * texture(tex0, texCoordVarying + vec2(blurAmount * 2.0, 0.0));
+    color += 2.0 * texture(tex0, texCoordVarying + vec2(blurAmount * 3.0, 0.0));
+    color += 1.0 * texture(tex0, texCoordVarying + vec2(blurAmount * 4.0, 0.0));
+    
+    color /= 25.0;
+    return color;
+}
+
+
+void main()
+{
+    vec4 p = vec4(0,0,0,0);
+
+    p = blurIteration(p);
+    outputColor = p;
+}
