@@ -1,0 +1,2 @@
+# blurExample
+openFrameworks blur example
